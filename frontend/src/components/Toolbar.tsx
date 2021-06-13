@@ -1,3 +1,4 @@
+import React from 'react';
 import { MenuBook } from '@material-ui/icons';
 import {
   Toolbar as ToolbarComponent,

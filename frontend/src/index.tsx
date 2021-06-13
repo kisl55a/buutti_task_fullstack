@@ -4,11 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CssBaseline } from '@material-ui/core';
+import { QueryClientProvider } from 'react-query';
+import queryClient from './queryClient';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <CssBaseline />
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

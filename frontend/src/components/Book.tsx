@@ -2,25 +2,21 @@ import React from 'react';
 import {
   Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
-  CssBaseline,
-  Grid,
   Typography,
-  Link,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
   card: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -30,37 +26,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-interface Props {
+export interface BookProps {
   title: string;
-  author: string;
   description: string;
+  author: string;
+  id: number;
 }
-const Book: React.FC<Props> = ({ title, author, description }: Props) => {
-  const classes = useStyles();
 
+const Book: React.FC<BookProps> = ({
+  id,
+  title,
+  author,
+  description,
+}: BookProps) => {
+  const classes = useStyles();
+  const history = useHistory();
+  const handleClick = () => {
+    history.push(`/books/${id}`);
+  };
   return (
-    <Card className={classes.card}>
-      <CardMedia
-        className={classes.cardMedia}
-        image="https://source.unsplash.com/random"
-        title="Image title"
-      />
+    <Card className={classes.card} onClick={handleClick}>
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>
-        <Typography>{description}</Typography>
-        <Typography>{author}</Typography>
+        <Typography variant="body1">{author}</Typography>
+        <br />
+        <Typography variant="body2">{description}</Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          View
-        </Button>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
-      </CardActions>
     </Card>
   );
 };

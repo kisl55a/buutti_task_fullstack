@@ -1,7 +1,12 @@
-import React from 'react';
-import { Grid, Toolbar, Typography, Container } from '@material-ui/core';
+import React, { useCallback, useState } from 'react';
+import { Grid, Typography, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../components/Footer';
+import Toolbar from 'components/Toolbar';
+import { useFetchBook } from 'hooks/useFetchBook';
+import { Loader } from 'components/Loader';
+import Book, { BookProps } from 'components/Book';
+import { BookForm } from 'components/BookForm';
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -14,13 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const MainPage = () => {
   const classes = useStyles();
-
+  const { data: booksData, isLoading: isBooksLoading } = useFetchBook();
+  if (isBooksLoading) return <Loader />;
   return (
-    <React.Fragment>
+    <>
       <Toolbar />
       <main>
         <div className={classes.heroContent}>
@@ -44,16 +48,25 @@ const MainPage = () => {
             </Typography>
           </Container>
         </div>
-        <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}></Grid>
-            ))}
+        <Container className={classes.cardGrid}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Grid container spacing={4}>
+                {booksData.reverse().map((book: BookProps, key: number) => (
+                  <Grid item key={key} xs={12} sm={12} md={12}>
+                    <Book {...book} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <BookForm />
+            </Grid>
           </Grid>
         </Container>
       </main>
       <Footer />
-    </React.Fragment>
+    </>
   );
 };
 
