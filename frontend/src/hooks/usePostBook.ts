@@ -10,13 +10,15 @@ export const usePostBook = (
     (data: BookProps) => {
       if (data.id) {
         return API.put(`/books/${data.id}`, data).then((res) => {
-          queryClient.invalidateQueries(['book', data.id]);
+          queryClient.invalidateQueries(['book', data.id], { exact: true });
+          queryClient.invalidateQueries('books');
           return res.data.rows;
         });
       }
-      queryClient.invalidateQueries('book');
-
-      return API.post(`/books`, data).then((res) => res.data.rows);
+      return API.post(`/books`, data).then((res) => {
+        queryClient.invalidateQueries('books');
+        return res.data.rows;
+      });
     },
     {
       ...options,

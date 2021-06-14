@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Grid, Typography, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../components/Footer';
@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
   const classes = useStyles();
+  const [currentId, setCurrentId] = useState(0);
+  const handleBookSelect = (id: number) => {
+    setCurrentId(id);
+  };
   const { data: booksData, isLoading: isBooksLoading } = useFetchBook();
   if (isBooksLoading) return <Loader />;
   return (
@@ -49,18 +53,18 @@ const MainPage = () => {
           </Container>
         </div>
         <Container className={classes.cardGrid}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
+          <Grid container spacing={2} wrap="wrap-reverse">
+            <Grid item sm={6} xs={12}>
               <Grid container spacing={4}>
-                {booksData.reverse().map((book: BookProps, key: number) => (
+                {booksData.map((book: BookProps, key: number) => (
                   <Grid item key={key} xs={12} sm={12} md={12}>
-                    <Book {...book} />
+                    <Book handleBookSelect={handleBookSelect} {...book} />
                   </Grid>
                 ))}
               </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <BookForm />
+            <Grid item sm={6} xs={12}>
+              <BookForm id={currentId} />
             </Grid>
           </Grid>
         </Container>

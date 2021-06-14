@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@material-ui/core';
+import { Card, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -32,20 +25,25 @@ export interface BookProps {
   author: string;
   id: number;
 }
+interface Props extends BookProps {
+  handleBookSelect: (id: number) => void;
+}
 
-const Book: React.FC<BookProps> = ({
+const Book: React.FC<Props> = ({
   id,
   title,
   author,
   description,
-}: BookProps) => {
+  handleBookSelect,
+}: Props) => {
   const classes = useStyles();
-  const history = useHistory();
-  const handleClick = () => {
-    history.push(`/books/${id}`);
-  };
   return (
-    <Card className={classes.card} onClick={handleClick}>
+    <Card
+      className={classes.card}
+      onClick={() => {
+        handleBookSelect(id);
+      }}
+    >
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" component="h2">
           {title}
