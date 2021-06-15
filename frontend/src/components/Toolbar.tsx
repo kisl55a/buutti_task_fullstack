@@ -4,24 +4,23 @@ import {
   Toolbar as ToolbarComponent,
   Typography,
   AppBar,
+  Grid,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-}));
-
-const Toolbar = () => {
-  const classes = useStyles();
+const Toolbar = (): JSX.Element => {
   return (
     <AppBar position="relative">
       <ToolbarComponent>
-        <MenuBook className={classes.icon} />
-        <Typography variant="h6" color="inherit" noWrap>
-          Books
-        </Typography>
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item>
+            <MenuBook />
+          </Grid>
+          <Grid item>
+            <Typography variant="h6" color="inherit" noWrap>
+              Books
+            </Typography>
+          </Grid>
+        </Grid>
       </ToolbarComponent>
     </AppBar>
   );

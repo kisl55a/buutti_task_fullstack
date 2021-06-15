@@ -1,23 +1,18 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    '&:hover': {
-      cursor: 'pointer',
-    },
+const StyledCard = styled(Card)({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  '&:hover': {
+    cursor: 'pointer',
   },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-}));
+});
+const StyledCardContent = styled(CardContent)({
+  flexGrow: 1,
+});
 
 export interface BookProps {
   title: string;
@@ -36,23 +31,21 @@ const Book: React.FC<Props> = ({
   description,
   handleBookSelect,
 }: Props) => {
-  const classes = useStyles();
   return (
-    <Card
-      className={classes.card}
+    <StyledCard
       onClick={() => {
         handleBookSelect(id);
       }}
     >
-      <CardContent className={classes.cardContent}>
+      <StyledCardContent>
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>
         <Typography variant="body1">{author}</Typography>
         <br />
         <Typography variant="body2">{description}</Typography>
-      </CardContent>
-    </Card>
+      </StyledCardContent>
+    </StyledCard>
   );
 };
 

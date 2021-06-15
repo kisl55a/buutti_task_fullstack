@@ -1,14 +1,15 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
+import { Grid } from '@material-ui/core';
 
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Dmitrii Kislenko
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -16,18 +17,14 @@ const Copyright = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
+const StyledFooterGrid = styled(Grid)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(6),
 }));
 
-const Footer = () => {
-  const classes = useStyles();
-
+const Footer = (): JSX.Element => {
   return (
-    <footer className={classes.footer}>
+    <StyledFooterGrid>
       <Typography variant="h6" align="center" gutterBottom>
         Footer
       </Typography>
@@ -37,10 +34,10 @@ const Footer = () => {
         color="textSecondary"
         component="p"
       >
-        Something here to give the footer a purpose!
+        The best book app ever
       </Typography>
       <Copyright />
-    </footer>
+    </StyledFooterGrid>
   );
 };
 

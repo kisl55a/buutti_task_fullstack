@@ -1,11 +1,11 @@
-import { useMutation, UseQueryOptions } from 'react-query';
+import { useMutation, UseMutationResult, UseQueryOptions } from 'react-query';
 import API from 'api';
 import { BookProps } from 'components/Book';
 import queryClient from 'queryClient';
 
 export const usePostBook = (
   options?: UseQueryOptions<any, unknown, any, (string | number | undefined)[]>
-) =>
+): UseMutationResult<any, unknown, BookProps, unknown> =>
   useMutation(
     (data: BookProps) => {
       if (data.id) {
