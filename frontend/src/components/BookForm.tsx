@@ -1,19 +1,17 @@
 import React from 'react';
 import { Formik } from 'formik';
 import BookFormFields from './forms/BookFormFields';
-import { Button, Grid, styled, ThemeProvider, Paper } from '@material-ui/core';
+import { Button, Grid, styled, Paper } from '@material-ui/core';
 import { usePostBook } from 'hooks/usePostBook';
 import { BookProps } from './Book';
 import { useFetchBook } from 'hooks/useFetchBook';
 import { useDeleteBook } from 'hooks/useDeleteBook';
 import * as Yup from 'yup';
 
-const StickyGrid = styled(Grid)(({ theme }) => ({
+const StickyPaper = styled(Paper)(({ theme }) => ({
   position: 'sticky',
   top: 15,
-  backgroundColor: theme.palette.common.white,
   padding: theme.spacing(1),
-  borderRadius: 4,
   marginTop: theme.spacing(0.1),
 }));
 const initialFormValues = {
@@ -54,56 +52,58 @@ export const BookForm: React.FC<Props> = ({ id }: Props) => {
   };
 
   return (
-    <Formik
-      enableReinitialize
-      initialValues={currentBookData?.[0] || initialFormValues}
-      validationSchema={bookFormValidationSchema}
-      onSubmit={(values: BookProps) => {
-        postBook(values);
-      }}
-    >
-      {({ submitForm, values }) => {
-        return (
-          <StickyGrid container spacing={1}>
-            <Grid item xs={12}>
-              <BookFormFields />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container spacing={1}>
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => handleCreate(submitForm, values)}
-                  >
-                    Save new
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    disabled={!values.id}
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => handleEdit(submitForm)}
-                  >
-                    Save
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    disabled={!values.id}
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => handleDelete(id)}
-                  >
-                    Delete
-                  </Button>
+    <StickyPaper>
+      <Formik
+        enableReinitialize
+        initialValues={currentBookData?.[0] || initialFormValues}
+        validationSchema={bookFormValidationSchema}
+        onSubmit={(values: BookProps) => {
+          postBook(values);
+        }}
+      >
+        {({ submitForm, values }) => {
+          return (
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <BookFormFields />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => handleCreate(submitForm, values)}
+                    >
+                      Save new
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      disabled={!values.id}
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => handleEdit(submitForm)}
+                    >
+                      Save
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      disabled={!values.id}
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => handleDelete(id)}
+                    >
+                      Delete
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </StickyGrid>
-        );
-      }}
-    </Formik>
+          );
+        }}
+      </Formik>
+    </StickyPaper>
   );
 };
