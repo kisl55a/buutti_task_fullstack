@@ -56,7 +56,7 @@ const MainPage = (): JSX.Element => {
             <Grid item sm={6} xs={12}>
               <Grid container spacing={4}>
                 {booksData
-                  .map((book: BookProps, key: number) => (
+                  ?.map((book: BookProps, key: number) => (
                     <Grid item key={key} xs={12} sm={12} md={12}>
                       <Book handleBookSelect={handleBookSelect} {...book} />
                     </Grid>

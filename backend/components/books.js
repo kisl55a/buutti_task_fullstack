@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 let book = require('../models/bookModel');
 
-// Create tables. This is diffe
+// Create tables
 const createTables = async () => {
   await book.createBooksTable({
     then: (message) => {
