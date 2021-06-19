@@ -2,6 +2,7 @@ import { useMutation, UseMutationResult, UseQueryOptions } from 'react-query';
 import API from 'api';
 import queryClient from 'queryClient';
 
+// * Hook for deleting a book
 export const useDeleteBook = (
   options?: UseQueryOptions<
     unknown,

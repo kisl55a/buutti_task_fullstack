@@ -3,6 +3,7 @@ import API from 'api';
 import { BookProps } from 'components/Book';
 import queryClient from 'queryClient';
 
+// * Hook for creating/editing a book. If id is provided in the passed data the book is mutated in other cases a book is created
 export const usePostBook = (
   options?: UseQueryOptions<any, unknown, any, (string | number | undefined)[]>
 ): UseMutationResult<any, unknown, BookProps, unknown> =>

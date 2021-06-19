@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 import API from 'api';
 
+// * Hook for fetching book or all books. If id is provided the particular book is fetched. In other cases the hook fetches all the books
 export const useFetchBook = (
   id?: number,
   options?: UseQueryOptions<any, unknown, any, (string | number | undefined)[]>
