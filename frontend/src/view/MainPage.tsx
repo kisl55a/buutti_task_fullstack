@@ -21,7 +21,15 @@ const MainPage = (): JSX.Element => {
   const handleBookSelect = (id: number) => {
     setCurrentId(id);
   };
-  const { data: booksData, isLoading: isBooksLoading } = useFetchBook();
+  const {
+    data: booksData,
+    isLoading: isBooksLoading,
+    isError: isFetchingError,
+  } = useFetchBook();
+  if (isFetchingError)
+    return (
+      <Typography variant="h3"> Errors with fetching books data</Typography>
+    );
   if (isBooksLoading) return <Loader />;
   return (
     <>

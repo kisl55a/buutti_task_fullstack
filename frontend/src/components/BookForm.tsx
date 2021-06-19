@@ -7,6 +7,7 @@ import { BookProps } from './Book';
 import { useFetchBook } from 'hooks/useFetchBook';
 import { useDeleteBook } from 'hooks/useDeleteBook';
 import * as Yup from 'yup';
+import { useSnackbar } from 'notistack';
 
 const StickyPaper = styled(Paper)(({ theme }) => ({
   position: 'sticky',
@@ -31,16 +32,28 @@ interface Props {
   id: number;
 }
 export const BookForm: React.FC<Props> = ({ id }: Props) => {
-  const { data: currentBookData } = useFetchBook(id === 0 ? undefined : id);
-  const { mutateAsync: postBook } = usePostBook();
-  const { mutateAsync: deleteBook } = useDeleteBook();
+  const { enqueueSnackbar } = useSnackbar();
+  const { data: currentBookData, isLoading: isBookLoading } = useFetchBook(
+    id === 0 ? undefined : id
+  );
+  const { mutateAsync: postBook } = usePostBook({
+    onSuccess: () =>
+      enqueueSnackbar('Successfully posted', { variant: 'success' }),
+    onError: () => enqueueSnackbar('Error while posting', { variant: 'error' }),
+  });
+  const { mutateAsync: deleteBook } = useDeleteBook({
+    onSuccess: () =>
+      enqueueSnackbar('Successfully deleted', { variant: 'success' }),
+    onError: () =>
+      enqueueSnackbar('Error while deleting', { variant: 'error' }),
+  });
 
   const handleEdit = (
     submitForm: (() => Promise<void>) & (() => Promise<any>)
   ) => {
     submitForm();
   };
-  const handleCreate = (
+  const handleCreate = async (
     submitForm: (() => Promise<void>) & (() => Promise<any>),
     values: BookProps
   ) => {
@@ -55,7 +68,7 @@ export const BookForm: React.FC<Props> = ({ id }: Props) => {
     <StickyPaper>
       <Formik
         enableReinitialize
-        initialValues={currentBookData?.[0] || initialFormValues}
+        initialValues={id !== 0 ? currentBookData?.[0] : initialFormValues}
         validationSchema={bookFormValidationSchema}
         onSubmit={(values: BookProps) => {
           postBook(values);
@@ -65,7 +78,7 @@ export const BookForm: React.FC<Props> = ({ id }: Props) => {
           return (
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <BookFormFields />
+                <BookFormFields isLoading={isBookLoading} />
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>
@@ -80,7 +93,7 @@ export const BookForm: React.FC<Props> = ({ id }: Props) => {
                   </Grid>
                   <Grid item>
                     <Button
-                      disabled={!values.id}
+                      disabled={!values?.id}
                       variant="outlined"
                       color="primary"
                       onClick={() => handleEdit(submitForm)}
@@ -90,7 +103,7 @@ export const BookForm: React.FC<Props> = ({ id }: Props) => {
                   </Grid>
                   <Grid item>
                     <Button
-                      disabled={!values.id}
+                      disabled={!values?.id}
                       variant="outlined"
                       color="secondary"
                       onClick={() => handleDelete(id)}

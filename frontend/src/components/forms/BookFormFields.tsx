@@ -1,19 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Grid } from '@material-ui/core';
+import { CircularProgress, Grid, InputAdornment } from '@material-ui/core';
 import { useFormikContext } from 'formik';
 import { BookProps } from 'components/Book';
 
-const BookFormFields = (): JSX.Element => {
+interface BookFieldsProps {
+  isLoading: boolean;
+}
+
+const BookFormFields: React.FC<BookFieldsProps> = ({
+  isLoading,
+}: BookFieldsProps) => {
   const { values, handleChange, errors } = useFormikContext<BookProps>();
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (values) {
-        localStorage.setItem('book_form_values', JSON.stringify(values));
-      }
-    }, 1500);
-    return () => clearTimeout(delayDebounceFn);
-  }, [values]);
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -25,8 +23,15 @@ const BookFormFields = (): JSX.Element => {
           onChange={handleChange}
           variant="outlined"
           fullWidth
+          InputProps={{
+            startAdornment: isLoading && (
+              <InputAdornment position="start">
+                <CircularProgress size={20} />
+              </InputAdornment>
+            ),
+          }}
           required
-          value={values.title}
+          value={values?.title}
         />
       </Grid>
       <Grid item xs={12}>
@@ -38,7 +43,14 @@ const BookFormFields = (): JSX.Element => {
           onChange={handleChange}
           variant="outlined"
           required
-          value={values.author}
+          InputProps={{
+            startAdornment: isLoading && (
+              <InputAdornment position="start">
+                <CircularProgress size={20} />
+              </InputAdornment>
+            ),
+          }}
+          value={values?.author}
           fullWidth
         />
       </Grid>
@@ -48,10 +60,17 @@ const BookFormFields = (): JSX.Element => {
           name="description"
           helperText={errors?.description}
           error={Boolean(errors?.description)}
-          value={values.description}
+          value={values?.description}
           multiline
           required
           rows={4}
+          InputProps={{
+            startAdornment: isLoading && (
+              <InputAdornment position="start">
+                <CircularProgress size={20} />
+              </InputAdornment>
+            ),
+          }}
           onChange={handleChange}
           variant="outlined"
           fullWidth

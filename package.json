@@ -1,0 +1,26 @@
+{
+  "name": "buutti_task_fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd frontend && npm i && npm run client",
+    "server": "cd backend && npm i && npm start",
+    "dev": "concurrently  \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kisl55a/buutti_task_fullstack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kisl55a/buutti_task_fullstack/issues"
+  },
+  "homepage": "https://github.com/kisl55a/buutti_task_fullstack#readme",
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  }
+}

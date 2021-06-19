@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { CssBaseline } from '@material-ui/core';
 import { QueryClientProvider } from 'react-query';
 import queryClient from './queryClient';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <CssBaseline />
-      <App />
-    </QueryClientProvider>
+    <SnackbarProvider maxSnack={3} preventDuplicate>
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
+        <App />
+      </QueryClientProvider>
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
